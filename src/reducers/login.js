@@ -3,11 +3,13 @@ const initialState = {
   email: '',
 };
 
-export default (state = initialState, { type }) => {
+export default (state = initialState, { type, payload }) => {
   switch (type) {
   case 'LOGIN':
-    // return { ...state, ...payload }
-    return state;
+    return {
+      name: payload.name,
+      email: payload.email,
+    };
   default:
     return state;
   }

@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import action from '../actions';
 
 class Login extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.handlechange = this.handlechange.bind(this);
 
@@ -27,6 +31,7 @@ class Login extends Component {
 
   render() {
     const { name, email } = this.state;
+    const { username } = this.props;
     return (
       <form>
         <label htmlFor="name">
@@ -49,16 +54,34 @@ class Login extends Component {
             onChange={ this.handlechange }
           />
         </label>
-        <button
-          disabled={ !(email && name) }
-          type="submit"
-          data-testid="btn-play"
+        <Link
+          to="/game"
+          onClick={
+            () => username({
+              type: 'LOGIN',
+              payload: { name, email },
+            })
+          }
         >
-          Jogar
-        </button>
+          <button
+            disabled={ !(email && name) }
+            type="submit"
+            data-testid="btn-play"
+          >
+            Jogar
+          </button>
+        </Link>
       </form>
     );
   }
 }
 
-export default Login;
+const MapDispatchToProps = (dispatch) => ({
+  username: (values) => dispatch(action(values)),
+});
+
+Login.propTypes = ({
+  username: PropTypes.function,
+}).isRequired;
+
+export default connect(null, MapDispatchToProps)(Login);

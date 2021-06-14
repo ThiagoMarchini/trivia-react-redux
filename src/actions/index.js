@@ -1,6 +1,6 @@
-const action = (type, payload) => ({
-  type,
-  payload,
+const action = (state) => ({
+  type: state.type,
+  payload: state.payload,
 });
 
 export default action;
