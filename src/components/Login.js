@@ -49,7 +49,13 @@ class Login extends Component {
             onChange={ this.handlechange }
           />
         </label>
-        <button disabled={ !(email && name) } type="submit" data-testid="btn-play">Jogar</button>
+        <button
+          disabled={ !(email && name) }
+          type="submit"
+          data-testid="btn-play"
+        >
+          Jogar
+        </button>
       </form>
     );
   }
