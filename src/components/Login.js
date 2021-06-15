@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import action from '../actions';
+import logo from '../trivia.png';
 
 class Login extends Component {
   constructor(props) {
@@ -33,45 +34,49 @@ class Login extends Component {
     const { name, email } = this.state;
     const { username } = this.props;
     return (
-      <form>
-        <label htmlFor="name">
-          Nome:
-          <input
-            type="text"
-            id="name"
-            name="name"
-            data-testid="input-player-name"
-            onChange={ this.handlechange }
-          />
-        </label>
-        <label htmlFor="email">
-          E-mail:
-          <input
-            type="email"
-            name="email"
-            id="email"
-            data-testid="input-gravatar-email"
-            onChange={ this.handlechange }
-          />
-        </label>
-        <Link
-          to="/game"
-          onClick={
-            () => username({
-              type: 'LOGIN',
-              payload: { name, email },
-            })
-          }
-        >
-          <button
-            disabled={ !(email && name) }
-            type="submit"
-            data-testid="btn-play"
+      <>
+        <img src={ logo } className="App-logo" alt="logo" />
+        <h2>The Game</h2>
+        <form>
+          <label htmlFor="name">
+            Nome:
+            <input
+              type="text"
+              id="name"
+              name="name"
+              data-testid="input-player-name"
+              onChange={ this.handlechange }
+            />
+          </label>
+          <label htmlFor="email">
+            E-mail:
+            <input
+              type="email"
+              name="email"
+              id="email"
+              data-testid="input-gravatar-email"
+              onChange={ this.handlechange }
+            />
+          </label>
+          <Link
+            to="/game"
+            onClick={
+              () => username({
+                type: 'LOGIN',
+                payload: { name, email },
+              })
+            }
           >
-            Jogar
-          </button>
-        </Link>
-      </form>
+            <button
+              disabled={ !(email && name) }
+              type="submit"
+              data-testid="btn-play"
+            >
+              Jogar
+            </button>
+          </Link>
+        </form>
+      </>
     );
   }
 }
