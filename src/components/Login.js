@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import action from '../actions';
+import action, { fetchToken } from '../actions/index';
+
 import logo from '../trivia.png';
 
 class Login extends Component {
@@ -16,6 +17,11 @@ class Login extends Component {
       email: '',
     };
   }
+
+  // componentDidMount() {
+  //   const { userToken } = this.props;
+  //   userToken();
+  // }
 
   handlechange({ target: { value, name } }) {
     const format = RegExp(/[a-z0-9]+@[a-z0-9]+\.[a-z0-9]{2,3}(\.[a-z0-9]+)?$/);
@@ -32,9 +38,9 @@ class Login extends Component {
 
   render() {
     const { name, email } = this.state;
-    const { username } = this.props;
+    const { username, userToken } = this.props;
     return (
-      <>
+      <div className="App-header">
         <img src={ logo } className="App-logo" alt="logo" />
         <h2>The Game</h2>
         <form>
@@ -68,6 +74,7 @@ class Login extends Component {
             }
           >
             <button
+              onClick={ userToken }
               disabled={ !(email && name) }
               type="submit"
               data-testid="btn-play"
@@ -76,12 +83,13 @@ class Login extends Component {
             </button>
           </Link>
         </form>
-      </>
+      </div>
     );
   }
 }
 
 const MapDispatchToProps = (dispatch) => ({
+  userToken: () => dispatch(fetchToken()),
   username: (values) => dispatch(action(values)),
 });
 
