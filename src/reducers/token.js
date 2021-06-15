@@ -1,15 +1,11 @@
 const initialState = {
-  name: '',
-  email: '',
+  key: '',
 };
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
-  case 'LOGIN':
-    return {
-      name: payload.name,
-      email: payload.email,
-    };
+  case 'TOKEN':
+    return { key: payload };
   default:
     return state;
   }
