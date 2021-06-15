@@ -9,6 +9,7 @@ export default action;
 
 export const fetchToken = () => async (dispatch) => {
   const resultAPI = await getAPIToken();
+  // console.log(resultAPI);
   const { token } = resultAPI;
   if (resultAPI.response_code === 0) {
     console.log(token);

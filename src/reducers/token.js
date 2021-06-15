@@ -5,8 +5,7 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
   switch (type) {
   case 'TOKEN':
-    return { key: payload.key };
-
+    return { key: payload };
   default:
     return state;
   }
