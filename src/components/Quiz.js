@@ -7,7 +7,7 @@ class Quiz extends Component {
     super(props);
     this.state = {
       id: 0,
-      questions: null,
+      questions: [],
     };
 
     this.nextQuestion = this.nextQuestion.bind(this);
@@ -81,7 +81,7 @@ class Quiz extends Component {
     const right = array[id].correct_answer;
     const answers = [array[id].correct_answer, ...array[id].incorrect_answers];
     const shuffleAnswers = this.shuffle(answers);
-    let index = 0;
+    let index = null;
     console.log(questions);
     return (
       <div>
