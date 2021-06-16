@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import action from '../actions/index';
-import fetchQUIZ from '../actions/index';
+// import action from '../actions/index';
+import { fetchQUIZ } from '../actions/index';
 import Timer from './Timer';
 
 class Quiz extends Component {

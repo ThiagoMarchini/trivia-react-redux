@@ -24,7 +24,6 @@ function actionQuiz(info) {
   };
 }
 
-
 export function fetchQUIZ(token) {
   return (dispatch) => getAPIQuiz(token)
     .then((response) => dispatch(actionQuiz(response)));
