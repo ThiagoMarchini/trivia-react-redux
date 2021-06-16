@@ -15,6 +15,7 @@ class Quiz extends Component {
     this.nextQuestion = this.nextQuestion.bind(this);
     this.rodaroda = this.rodaroda.bind(this);
     this.answeredQuestion = this.answeredQuestion.bind(this);
+    this.nextButton = this.nextButton.bind(this);
   }
 
   rodaroda() {
@@ -81,6 +82,20 @@ class Quiz extends Component {
     });
   }
 
+  nextButton() {
+    const { answered } = this.state;
+    return (
+      <button
+        data-testid="btn-next"
+        type="button"
+        onClick={ this.nextQuestion }
+        style={ { visibility: (answered ? 'visible' : 'hidden') } }
+      >
+        Próxima
+      </button>
+    );
+  }
+
   render() {
     const { questions, id, answered } = this.state;
     if (questions.length === 0) {
@@ -122,14 +137,7 @@ class Quiz extends Component {
             </button>
           );
         })}
-        <button
-          data-testid="btn-next"
-          type="button"
-          onClick={ this.nextQuestion }
-          style={ { visibility: (answered ? 'visible' : 'hidden') } }
-        >
-          Próxima
-        </button>
+        { this.nextButton() }
         <Timer />
       </div>
     );
