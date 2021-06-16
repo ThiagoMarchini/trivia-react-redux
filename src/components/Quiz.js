@@ -7,8 +7,9 @@ class Quiz extends Component {
     super(props);
     this.state = {
       id: 0,
-      questions: [],
+      questions: null,
     };
+
     this.nextQuestion = this.nextQuestion.bind(this);
     this.rodaroda = this.rodaroda.bind(this);
     // this.rodaroda()
@@ -17,7 +18,6 @@ class Quiz extends Component {
   rodaroda() {
     // const { APIquestions } = this.props;
     const local = localStorage.getItem('token');
-    // APIquestions(local);
     const urlQuiz = `https://opentdb.com/api.php?amount=5&token=${local}`;
     fetch(urlQuiz)
       .then((response) => (
@@ -82,8 +82,8 @@ class Quiz extends Component {
     const answers = [array[id].correct_answer, ...array[id].incorrect_answers];
     const shuffleAnswers = this.shuffle(answers);
     let index = 0;
+    console.log(questions);
     return (
-
       <div>
         <h6 data-testid="question-category">{array[id].category}</h6>
         <div data-testid="question-text">{array[id].question}</div>
