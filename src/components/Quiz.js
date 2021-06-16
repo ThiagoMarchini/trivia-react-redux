@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Timer from './Timer';
+import '../App.css';
 
 class Quiz extends Component {
   constructor(props) {
@@ -8,11 +9,12 @@ class Quiz extends Component {
     this.state = {
       id: 0,
       questions: [],
+      answered: false,
     };
 
     this.nextQuestion = this.nextQuestion.bind(this);
     this.rodaroda = this.rodaroda.bind(this);
-    // this.rodaroda()
+    this.answeredQuestion = this.answeredQuestion.bind(this);
   }
 
   rodaroda() {
@@ -68,11 +70,19 @@ class Quiz extends Component {
     const { id } = this.state;
     this.setState({
       id: id + 1,
+      answered: false,
+    });
+  }
+
+  answeredQuestion(e) {
+    e.preventDefault();
+    this.setState({
+      answered: true,
     });
   }
 
   render() {
-    const { questions, id } = this.state;
+    const { questions, id, answered } = this.state;
     if (questions.length === 0) {
       this.rodaroda();
       return <h1>Loading...</h1>;
@@ -93,6 +103,8 @@ class Quiz extends Component {
                 type="button"
                 key={ i }
                 data-testid={ `wrong-answer-${index - 1}` }
+                className={ answered ? 'red-border' : '' }
+                onClick={ this.answeredQuestion }
               >
                 {item}
               </button>
@@ -103,6 +115,8 @@ class Quiz extends Component {
               type="button"
               key="correct"
               data-testid="correct-answer"
+              className={ answered ? 'green-border' : '' }
+              onClick={ this.answeredQuestion }
             >
               {item}
             </button>
@@ -112,6 +126,7 @@ class Quiz extends Component {
           data-testid="btn-next"
           type="button"
           onClick={ this.nextQuestion }
+          style={ { visibility: (answered ? 'visible' : 'hidden') } }
         >
           Próxima
         </button>
