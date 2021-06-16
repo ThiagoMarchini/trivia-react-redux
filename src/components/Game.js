@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import Header from './Header';
-import Timer from './Timer';
+import Quiz from './Quiz';
 
 class Game extends Component {
   render() {
     return (
       <div>
         <Header />
-        board game
-        <Timer />
+        <Quiz />
       </div>
     );
   }

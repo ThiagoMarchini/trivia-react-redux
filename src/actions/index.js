@@ -1,4 +1,5 @@
 import getAPIToken from '../services';
+import getAPIQuiz from '../services/APIQuiz';
 
 const action = (state) => ({
   type: state.type,
@@ -9,11 +10,21 @@ export default action;
 
 export const fetchToken = () => async (dispatch) => {
   const resultAPI = await getAPIToken();
-  // console.log(resultAPI);
   const { token } = resultAPI;
   if (resultAPI.response_code === 0) {
-    console.log(token);
     localStorage.setItem('token', token);
     return dispatch(action({ type: 'TOKEN', payload: token }));
   }
 };
+
+function actionQuiz(info) {
+  return {
+    type: 'QUIZ',
+    payload: info,
+  };
+}
+
+export function fetchQUIZ(token) {
+  return (dispatch) => getAPIQuiz(token)
+    .then((response) => dispatch(actionQuiz(response)));
+}

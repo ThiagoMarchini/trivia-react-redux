@@ -20,8 +20,7 @@ class Login extends Component {
   }
 
   // componentDidMount() {
-  //   const { userToken } = this.props;
-  //   userToken();
+  //   localStorage.setItem('token', 0);
   // }
 
   handlechange({ target: { value, name } }) {
@@ -42,7 +41,6 @@ class Login extends Component {
     const { username, userToken } = this.props;
     return (
       <div className="App-header">
-        <ButtonSettings />
         <img src={ logo } className="App-logo" alt="logo" />
         <h2>The Game</h2>
         <form>
@@ -80,6 +78,7 @@ class Login extends Component {
             </button>
           </Link>
         </form>
+        <ButtonSettings />
       </div>
     );
   }
