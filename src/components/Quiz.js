@@ -9,7 +9,7 @@ class Quiz extends Component {
     super(props);
     this.state = {
       id: 0,
-      questions: undefined,
+      questions: null,
     };
 
     this.nextQuestion = this.nextQuestion.bind(this);
@@ -60,7 +60,7 @@ class Quiz extends Component {
   render() {
     const { questions, id } = this.state;
     const array = questions;
-    if (!array) {
+    if (questions === null) {
       return <h1>Loading...</h1>;
     }
     const right = array[id].correct_answer;
