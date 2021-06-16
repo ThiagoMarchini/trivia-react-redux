@@ -11,24 +11,16 @@ class Timer extends Component {
 
   componentDidMount() {
     const ONE_SECOND = 1000; // 1 second in milliseconds
-    const { seconds } = this.state;
     this.chronometerInterval = setInterval(() => {
       console.log('interval rodando');
-      if (seconds === 0) {
-        this.setState((state) => ({
-          seconds: 59,
-          minutes: state.minutes - 1,
-        }));
-      } else {
-        this.setState((state) => ({ seconds: state.seconds - 1 }));
-      }
+      this.setState((state) => ({ seconds: state.seconds - 1 }));
     }, ONE_SECOND);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.seconds === 0) {
+    if (prevState.seconds === 1) {
       clearInterval(this.chronometerInterval);
-      alert('ACABOU O TTEMPO');
+      // lógica após o fim do tempo
     }
   }
 
