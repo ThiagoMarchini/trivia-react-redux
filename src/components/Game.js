@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Header from './Header';
+import Timer from './Timer';
 
 class Game extends Component {
   render() {
@@ -7,6 +8,7 @@ class Game extends Component {
       <div>
         <Header />
         board game
+        <Timer />
       </div>
     );
   }
