@@ -8,6 +8,10 @@ export default (state = INITIAL_STATE, { type }) => {
     return {
       timeout: true,
     };
+  case 'RESET':
+    return {
+      timeout: false,
+    };
   default:
     return state;
   }

@@ -1,22 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import action from '../actions/index';
-import fetchQUIZ from '../actions/index'
+import fetchQUIZ from '../actions/index';
+import Timer from './Timer';
 
 class Quiz extends Component {
   constructor(props) {
     super(props);
     this.state = {
       id: 0,
-      questions: [],
+      questions: undefined,
     };
+
     this.nextQuestion = this.nextQuestion.bind(this);
+    this.questions = this.questions.bind(this);
+
+    this.questions();
   }
 
-  componentDidMount() {
-    // const { APIquestions } = this.props;
+  questions() {
     const local = localStorage.getItem('token');
-    // APIquestions(local);
     const urlQuiz = `https://opentdb.com/api.php?amount=5&token=${local}`;
     fetch(urlQuiz)
       .then((response) => (
@@ -56,15 +59,15 @@ class Quiz extends Component {
 
   render() {
     const { questions, id } = this.state;
-
     const array = questions;
-    if (array.length === 0) {
+    if (!array) {
       return <h1>Loading...</h1>;
     }
     const right = array[id].correct_answer;
     const answers = [array[id].correct_answer, ...array[id].incorrect_answers];
     const shuffleAnswers = this.shuffle(answers);
     let index = 0;
+    console.log(questions);
     return (
       <div>
         <h6 data-testid="question-category">{array[id].category}</h6>
@@ -99,6 +102,7 @@ class Quiz extends Component {
         >
           Próxima
         </button>
+        <Timer />
       </div>
     );
   }
