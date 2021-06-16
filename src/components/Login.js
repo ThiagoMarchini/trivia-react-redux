@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import action, { fetchToken } from '../actions/index';
+import ButtonSettings from './ButtonSettings';
 
 import logo from '../trivia.png';
 
@@ -40,6 +41,7 @@ class Login extends Component {
     const { username, userToken } = this.props;
     return (
       <div className="App-header">
+        <ButtonSettings />
         <img src={ logo } className="App-logo" alt="logo" />
         <h2>The Game</h2>
         <form>
@@ -65,12 +67,7 @@ class Login extends Component {
           </label>
           <Link
             to="/game"
-            onClick={
-              () => username({
-                type: 'LOGIN',
-                payload: { name, email },
-              })
-            }
+            onClick={ () => username({ type: 'LOGIN', payload: { name, email } }) }
           >
             <button
               onClick={ userToken }
