@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import action from '../actions';
 
 class Timer extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       seconds: 30,
@@ -18,9 +21,10 @@ class Timer extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const { timeout } = this.props;
     if (prevState.seconds === 1) {
       clearInterval(this.chronometerInterval);
-      // lógica após o fim do tempo
+      timeout({ type: 'TIMEOUT' });
     }
   }
 
@@ -44,4 +48,12 @@ class Timer extends Component {
   }
 }
 
-export default Timer;
+const mapDispatchToProps = (dispatch) => ({
+  timeout: (state) => dispatch(action(state)),
+});
+
+Timer.propTypes = {
+  timeout: PropTypes.func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Timer);
