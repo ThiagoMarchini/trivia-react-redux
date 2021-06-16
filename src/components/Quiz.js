@@ -73,22 +73,20 @@ class Quiz extends Component {
 
   render() {
     const { questions, id } = this.state;
-    const array = questions;
-    if (!array) {
+    if (questions.length === 0) {
       this.rodaroda();
       return <h1>Loading...</h1>;
     }
-    const right = array[id].correct_answer;
-    const answers = [array[id].correct_answer, ...array[id].incorrect_answers];
+    const answers = [questions[id].correct_answer, ...questions[id].incorrect_answers];
     const shuffleAnswers = this.shuffle(answers);
     let index = null;
     console.log(questions);
     return (
       <div>
-        <h6 data-testid="question-category">{array[id].category}</h6>
-        <div data-testid="question-text">{array[id].question}</div>
+        <h6 data-testid="question-category">{questions[id].category}</h6>
+        <div data-testid="question-text">{questions[id].question}</div>
         {shuffleAnswers.map((item, i) => {
-          if (item !== right) {
+          if (item !== questions[id].correct_answer) {
             index += 1;
             return (
               <button
