@@ -18,10 +18,9 @@ class Login extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   const { userToken } = this.props;
-  //   userToken();
-  // }
+  componentDidMount() {
+    localStorage.setItem('token', 0);
+  }
 
   handlechange({ target: { value, name } }) {
     const format = RegExp(/[a-z0-9]+@[a-z0-9]+\.[a-z0-9]{2,3}(\.[a-z0-9]+)?$/);

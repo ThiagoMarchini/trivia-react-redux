@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import action from '../actions/index';
+import fetchQUIZ from '../actions/index'
 
 class Quiz extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      index: 0,
+      id: 0,
       questions: [],
     };
     this.nextQuestion = this.nextQuestion.bind(this);
   }
 
   componentDidMount() {
+    // const { APIquestions } = this.props;
     const local = localStorage.getItem('token');
+    // APIquestions(local);
     const urlQuiz = `https://opentdb.com/api.php?amount=5&token=${local}`;
     fetch(urlQuiz)
       .then((response) => (
@@ -44,44 +48,50 @@ class Quiz extends Component {
   }
 
   nextQuestion() {
-    const { index } = this.state;
+    const { id } = this.state;
     this.setState({
-      index: index + 1,
+      id: id + 1,
     });
   }
 
   render() {
-    const { questions, index } = this.state;
+    const { questions, id } = this.state;
+
     const array = questions;
     if (array.length === 0) {
-      return (
-        <h1>Loading...</h1>
-      );
+      return <h1>Loading...</h1>;
     }
-    // const right = array[index].correct_answer;
-    const answers = [array[index].correct_answer, ...array[index].incorrect_answers];
-    this.shuffle(answers);
-    console.log(answers);
-    // const { question, category, correct_answer, incorrect_answers} = array[0];
-    // console.log(array[0]);
-
+    const right = array[id].correct_answer;
+    const answers = [array[id].correct_answer, ...array[id].incorrect_answers];
+    const shuffleAnswers = this.shuffle(answers);
+    let index = 0;
     return (
-
       <div>
-
-        {/*
-<p>category[i]</p>
-<p>question[i] </p>
-<p>map(shuffle(array=[correct_answer[i], incorrect_answers[i]]))</p>
-
-*/}
-
-        <h6 data-testid="question-category">{array[index].category}</h6>
-        <div data-testid="question-text">{array[index].question}</div>
-        <div>resposta1</div>
-        <div>resposta2</div>
-        <div>resposta3</div>
-        <div>resposta4</div>
+        <h6 data-testid="question-category">{array[id].category}</h6>
+        <div data-testid="question-text">{array[id].question}</div>
+        {shuffleAnswers.map((item, i) => {
+          if (item !== right) {
+            index += 1;
+            return (
+              <button
+                type="button"
+                key={ i }
+                data-testid={ `wrong-answer-${index - 1}` }
+              >
+                {item}
+              </button>
+            );
+          }
+          return (
+            <button
+              type="button"
+              key="correct"
+              data-testid="correct-answer"
+            >
+              {item}
+            </button>
+          );
+        })}
         <button
           data-testid="btn-next"
           type="button"
@@ -94,8 +104,12 @@ class Quiz extends Component {
   }
 }
 
+const MapDispatchToProps = (dispatch) => ({
+  APIquestions: (token) => dispatch(fetchQUIZ(token)),
+});
+
 const MapStateToProps = (state) => ({
   tokenKey: state.token.key,
 });
 
-export default connect(MapStateToProps)(Quiz);
+export default connect(MapStateToProps, MapDispatchToProps)(Quiz);
