@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Header from './Header';
 import Quiz from './Quiz';
-import Timer from './Timer';
 
 class Game extends Component {
   render() {
@@ -9,7 +8,6 @@ class Game extends Component {
       <div>
         <Header />
         <Quiz />
-        <Timer />
       </div>
     );
   }

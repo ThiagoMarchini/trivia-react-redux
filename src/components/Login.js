@@ -19,9 +19,9 @@ class Login extends Component {
     };
   }
 
-  componentDidMount() {
-    localStorage.setItem('token', 0);
-  }
+  // componentDidMount() {
+  //   localStorage.setItem('token', 0);
+  // }
 
   handlechange({ target: { value, name } }) {
     const format = RegExp(/[a-z0-9]+@[a-z0-9]+\.[a-z0-9]{2,3}(\.[a-z0-9]+)?$/);
@@ -41,7 +41,6 @@ class Login extends Component {
     const { username, userToken } = this.props;
     return (
       <div className="App-header">
-        <ButtonSettings />
         <img src={ logo } className="App-logo" alt="logo" />
         <h2>The Game</h2>
         <form>
@@ -79,6 +78,7 @@ class Login extends Component {
             </button>
           </Link>
         </form>
+        <ButtonSettings />
       </div>
     );
   }

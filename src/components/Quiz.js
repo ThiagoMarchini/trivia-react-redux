@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import action from '../actions/index';
-import fetchQUIZ from '../actions/index'
+import Timer from './Timer';
 
 class Quiz extends Component {
   constructor(props) {
@@ -11,9 +10,11 @@ class Quiz extends Component {
       questions: [],
     };
     this.nextQuestion = this.nextQuestion.bind(this);
+    this.rodaroda = this.rodaroda.bind(this);
+    // this.rodaroda()
   }
 
-  componentDidMount() {
+  rodaroda() {
     // const { APIquestions } = this.props;
     const local = localStorage.getItem('token');
     // APIquestions(local);
@@ -28,6 +29,22 @@ class Quiz extends Component {
           .catch((error) => error)
       ));
   }
+
+  // componentDidMount() {
+  //   // const { APIquestions } = this.props;
+  //   const local = localStorage.getItem('token');
+  //   // APIquestions(local);
+  //   const urlQuiz = `https://opentdb.com/api.php?amount=5&token=${local}`;
+  //   fetch(urlQuiz)
+  //     .then((response) => (
+  //       response
+  //         .json()
+  //         .then((json) => this.setState({
+  //           questions: json.results,
+  //         }))
+  //         .catch((error) => error)
+  //     ));
+  // }
 
   // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
   shuffle(array) {
@@ -56,9 +73,9 @@ class Quiz extends Component {
 
   render() {
     const { questions, id } = this.state;
-
     const array = questions;
     if (array.length === 0) {
+      this.rodaroda();
       return <h1>Loading...</h1>;
     }
     const right = array[id].correct_answer;
@@ -66,6 +83,7 @@ class Quiz extends Component {
     const shuffleAnswers = this.shuffle(answers);
     let index = 0;
     return (
+
       <div>
         <h6 data-testid="question-category">{array[id].category}</h6>
         <div data-testid="question-text">{array[id].question}</div>
@@ -99,17 +117,14 @@ class Quiz extends Component {
         >
           Próxima
         </button>
+        <Timer />
       </div>
     );
   }
 }
 
-const MapDispatchToProps = (dispatch) => ({
-  APIquestions: (token) => dispatch(fetchQUIZ(token)),
-});
-
 const MapStateToProps = (state) => ({
   tokenKey: state.token.key,
 });
 
-export default connect(MapStateToProps, MapDispatchToProps)(Quiz);
+export default connect(MapStateToProps)(Quiz);
