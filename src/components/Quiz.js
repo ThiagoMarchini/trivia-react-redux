@@ -74,7 +74,7 @@ class Quiz extends Component {
   render() {
     const { questions, id } = this.state;
     const array = questions;
-    if (array.length === 0) {
+    if (!array) {
       this.rodaroda();
       return <h1>Loading...</h1>;
     }
