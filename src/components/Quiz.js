@@ -127,7 +127,7 @@ class Quiz extends Component {
       this.rodaroda();
       return <h1>Loading...</h1>;
     }
-    if (id > (questions.length) - 1) { return <Redirect to="/" />; }
+    if (id > (questions.length) - 1) { return <Redirect to="/feedback" />; }
     const answers = [questions[id].correct_answer, ...questions[id].incorrect_answers];
     const shuffleAnswers = this.shuffle(answers);
     let index = null;
