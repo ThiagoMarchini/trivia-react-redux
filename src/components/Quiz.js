@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import action from '../actions';
 import Timer from './Timer';
 import '../App.css';
 
@@ -69,14 +71,17 @@ class Quiz extends Component {
 
   nextQuestion() {
     const { id } = this.state;
+    const { time } = this.props;
     this.setState({
       id: id + 1,
       answered: false,
     });
+    time({ type: 'RESET' });
   }
 
-  answeredQuestion(e) {
-    e.preventDefault();
+  answeredQuestion() {
+    const { time } = this.props;
+    time({ type: 'HIDE' });
     this.setState({
       answered: true,
     });
@@ -98,6 +103,8 @@ class Quiz extends Component {
 
   render() {
     const { questions, id, answered } = this.state;
+    const { timeout } = this.props;
+    if (timeout === true && answered === false) { this.answeredQuestion(); }
     if (questions.length === 0) {
       this.rodaroda();
       return <h1>Loading...</h1>;
@@ -105,7 +112,6 @@ class Quiz extends Component {
     const answers = [questions[id].correct_answer, ...questions[id].incorrect_answers];
     const shuffleAnswers = this.shuffle(answers);
     let index = null;
-    console.log(questions);
     return (
       <div>
         <h6 data-testid="question-category">{questions[id].category}</h6>
@@ -115,6 +121,7 @@ class Quiz extends Component {
             index += 1;
             return (
               <button
+                disabled={ answered }
                 type="button"
                 key={ i }
                 data-testid={ `wrong-answer-${index - 1}` }
@@ -127,6 +134,7 @@ class Quiz extends Component {
           }
           return (
             <button
+              disabled={ answered }
               type="button"
               key="correct"
               data-testid="correct-answer"
@@ -146,6 +154,17 @@ class Quiz extends Component {
 
 const MapStateToProps = (state) => ({
   tokenKey: state.token.key,
+  show: state.timeout.show,
+  timeout: state.timeout.timeout,
 });
 
-export default connect(MapStateToProps)(Quiz);
+const mapDispatchToProps = (dispatch) => ({
+  time: (state) => dispatch(action(state)),
+});
+
+Quiz.propTypes = {
+  time: PropTypes.func.isRequired,
+  timeout: PropTypes.bool.isRequired,
+};
+
+export default connect(MapStateToProps, mapDispatchToProps)(Quiz);
