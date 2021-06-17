@@ -8,6 +8,7 @@ class Header extends Component {
     super(props);
 
     this.gravatar = this.gravatar.bind(this);
+    this.saveScore = this.saveScore.bind(this);
   }
 
   gravatar() {
@@ -21,26 +22,48 @@ class Header extends Component {
       />);
   }
 
+  saveScore() {
+    const { username, score, email, assertions } = this.props;
+    const player = `{
+      "player" : {
+        "name" : "${username}",
+        "assertions" : "${assertions}",
+        "score" : "${score}",
+        "email" : "${email}"
+      }
+    }`;
+    console.log(JSON.parse(player));
+    localStorage.setItem('state', player);
+  }
+
   render() {
-    const { username } = this.props;
+    this.saveScore();
+    const { username, score } = this.props;
     return (
       <header>
         <h3 data-testid="header-player-name">{username}</h3>
         <div>
           {this.gravatar()}
         </div>
-        <div data-testid="header-score">0</div>
+        <div data-testid="header-score">
+          Pontuação:
+          { score }
+        </div>
       </header>
     );
   }
 }
 
 const MapStateToProps = (state) => ({
+  assertions: state.timeout.assertions,
+  score: state.timeout.score,
   email: state.login.email,
   username: state.login.name,
 });
 
 Header.propTypes = ({
+  assertions: PropTypes.number,
+  score: PropTypes.number,
   email: PropTypes.string,
   username: PropTypes.string,
 }).isRequired;
