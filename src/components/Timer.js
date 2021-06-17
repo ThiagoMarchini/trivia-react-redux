@@ -4,27 +4,28 @@ import PropTypes from 'prop-types';
 import action from '../actions';
 
 class Timer extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      seconds: 30,
-    };
-  }
-
   componentDidMount() {
+    const { setTime } = this.props;
     const ONE_SECOND = 1000; // 1 second in milliseconds
     this.chronometerInterval = setInterval(() => {
       console.log('interval rodando');
-      this.setState((state) => ({ seconds: state.seconds - 1 }));
+      setTime({ type: 'DECREASE' });
     }, ONE_SECOND);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { timeout } = this.props;
-    if (prevState.seconds === 1) {
+  componentDidUpdate() {
+    const maxTime = 30;
+    const { setTime, time, show } = this.props;
+    const ONE_SECOND = 1000; // 1 second in milliseconds
+    if (time === 0 || show === false) {
       clearInterval(this.chronometerInterval);
-      timeout({ type: 'TIMEOUT' });
+      setTime({ type: 'TIMEOUT' });
+    }
+    if (time === maxTime && show === true) {
+      this.chronometerInterval = setInterval(() => {
+        console.log('interval rodando');
+        setTime({ type: 'DECREASE' });
+      }, ONE_SECOND);
     }
   }
 
@@ -34,12 +35,12 @@ class Timer extends Component {
   }
 
   render() {
-    const { seconds } = this.state;
+    const { time, show } = this.props;
 
     return (
       <div className="chronometer">
-        <h2>
-          {seconds}
+        <h2 style={ { visibility: (show ? 'visible' : 'hidden') } }>
+          {time}
         </h2>
         <br />
         <br />
@@ -49,11 +50,18 @@ class Timer extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  timeout: (state) => dispatch(action(state)),
+  setTime: (state) => dispatch(action(state)),
+});
+
+const mapStateToProps = (state) => ({
+  time: state.timeout.time,
+  show: state.timeout.show,
 });
 
 Timer.propTypes = {
-  timeout: PropTypes.func.isRequired,
+  setTime: PropTypes.func.isRequired,
+  time: PropTypes.number.isRequired,
+  show: PropTypes.bool.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(Timer);
+export default connect(mapStateToProps, mapDispatchToProps)(Timer);

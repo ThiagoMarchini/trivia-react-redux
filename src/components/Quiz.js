@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import action from '../actions';
 import Timer from './Timer';
+import '../App.css';
 
 class Quiz extends Component {
   constructor(props) {
@@ -9,12 +12,13 @@ class Quiz extends Component {
     this.state = {
       id: 0,
       questions: [],
-      show: 'visibillity',
+      answered: false,
     };
 
     this.nextQuestion = this.nextQuestion.bind(this);
     this.rodaroda = this.rodaroda.bind(this);
-    // this.rodaroda()
+    this.answeredQuestion = this.answeredQuestion.bind(this);
+    this.nextButton = this.nextButton.bind(this);
   }
 
   rodaroda() {
@@ -66,36 +70,81 @@ class Quiz extends Component {
     return array;
   }
 
+  questionStructure() {
+    const { questions, id } = this.state;
+    return (
+      <>
+        <h6 data-testid="question-category">{questions[id].category}</h6>
+        <div data-testid="question-text">{questions[id].question}</div>
+      </>
+    );
+  }
+
   nextQuestion() {
     const { id } = this.state;
-      this.setState({
-        id: id + 1,
-      });
+    const { time } = this.props;
+    this.setState({
+      id: id + 1,
+      answered: false,
+    });
+    time({ type: 'RESET' });
+  }
+
+  answeredQuestion() {
+    const { time } = this.props;
+    time({ type: 'HIDE' });
+    this.setState({
+      answered: true,
+    });
+  }
+
+  nextButton() {
+    const { answered } = this.state;
+    return (
+      <button
+        data-testid="btn-next"
+        type="button"
+        onClick={ this.nextQuestion }
+        style={ { visibility: (answered ? 'visible' : 'hidden') } }
+      >
+        Próxima
+      </button>
+    );
+  }
+
+  redirector(identifier) {
+    const { questions } = this.state;
+    if (identifier > (questions.length) - 1) {
+      return <Redirect to="/" />;
+    }
   }
 
   render() {
-    const { questions, id, show } = this.state;
+    const { questions, id, answered } = this.state;
+    const { timeout } = this.props;
+    if (timeout === true && answered === false) { this.answeredQuestion(); }
     if (questions.length === 0) {
       this.rodaroda();
       return <h1>Loading...</h1>;
     }
-    if (id > questions.length) { return (<Redirect to="/" />); }
+    if (id > (questions.length) - 1) { return <Redirect to="/" />; }
     const answers = [questions[id].correct_answer, ...questions[id].incorrect_answers];
     const shuffleAnswers = this.shuffle(answers);
     let index = null;
-    console.log(questions);
     return (
       <div>
-        <h6 data-testid="question-category">{questions[id].category}</h6>
-        <div data-testid="question-text">{questions[id].question}</div>
+        {this.questionStructure()}
         {shuffleAnswers.map((item, i) => {
           if (item !== questions[id].correct_answer) {
             index += 1;
             return (
               <button
+                disabled={ answered }
                 type="button"
                 key={ i }
                 data-testid={ `wrong-answer-${index - 1}` }
+                className={ answered ? 'red-border' : '' }
+                onClick={ this.answeredQuestion }
               >
                 {item}
               </button>
@@ -103,22 +152,18 @@ class Quiz extends Component {
           }
           return (
             <button
+              disabled={ answered }
               type="button"
               key="correct"
               data-testid="correct-answer"
+              className={ answered ? 'green-border' : '' }
+              onClick={ this.answeredQuestion }
             >
               {item}
             </button>
           );
         })}
-        <button
-          data-testid="btn-next"
-          type="button"
-          onClick={ this.nextQuestion }
-          style={ { visibility: `${show}` } }
-        >
-          Próxima
-        </button>
+        { this.nextButton() }
         <Timer />
       </div>
     );
@@ -127,6 +172,17 @@ class Quiz extends Component {
 
 const MapStateToProps = (state) => ({
   tokenKey: state.token.key,
+  show: state.timeout.show,
+  timeout: state.timeout.timeout,
 });
 
-export default connect(MapStateToProps)(Quiz);
+const mapDispatchToProps = (dispatch) => ({
+  time: (state) => dispatch(action(state)),
+});
+
+Quiz.propTypes = {
+  time: PropTypes.func.isRequired,
+  timeout: PropTypes.bool.isRequired,
+};
+
+export default connect(MapStateToProps, mapDispatchToProps)(Quiz);
