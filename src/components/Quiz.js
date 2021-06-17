@@ -90,8 +90,24 @@ class Quiz extends Component {
     time({ type: 'RESET' });
   }
 
-  answeredQuestion() {
+  answeredQuestion(e = null) {
     const { time } = this.props;
+    if (e !== null && e.target.value) {
+      const max = 3;
+      let { value } = e.target;
+      switch (value) {
+      case 'easy':
+        value = 1;
+        break;
+      case 'medium':
+        value = 2;
+        break;
+      default:
+        value = max;
+        break;
+      }
+      time({ type: 'SCORE', payload: value });
+    }
     time({ type: 'HIDE' });
     this.setState({
       answered: true,
@@ -152,6 +168,7 @@ class Quiz extends Component {
           }
           return (
             <button
+              value={ questions[id].difficulty }
               disabled={ answered }
               type="button"
               key="correct"
