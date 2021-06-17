@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class MsgFeedback extends Component {
   render() {
@@ -7,12 +8,22 @@ class MsgFeedback extends Component {
     const feedback = Math.floor(Math.random() * numberMax);
     const numberOfHits = 3;
     return (
-      <section>
-        {feedback < numberOfHits
+      <>
+        <section data-testid="feedback-text">
+          {feedback < numberOfHits
           && <p data-testid="feedback-text">Podia ser melhor...</p>}
-        {feedback >= numberOfHits
+          {feedback >= numberOfHits
           && <p data-testid="feedback-text">Mandou bem!</p>}
-      </section>
+        </section>
+        <Link to="/" data-testid="btn-play-again">
+          {' '}
+          <button type="button">Jogar novamente</button>
+        </Link>
+        <Link to="/ranking" data-testid="btn-ranking">
+          {' '}
+          <button type="button">Ver Ranking</button>
+        </Link>
+      </>
     );
   }
 }
