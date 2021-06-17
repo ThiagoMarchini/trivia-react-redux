@@ -32,7 +32,6 @@ class Header extends Component {
         "email" : "${email}"
       }
     }`;
-    console.log(JSON.parse(player));
     localStorage.setItem('state', player);
   }
 

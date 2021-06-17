@@ -81,7 +81,7 @@ class Quiz extends Component {
 
   answeredQuestion(e = null) {
     const { time } = this.props;
-    if (e.target.value) {
+    if (e !== null) {
       const max = 3;
       let { value } = e.target;
       switch (value) {
@@ -95,7 +95,6 @@ class Quiz extends Component {
         value = max;
         break;
       }
-      console.log(value);
       time({ type: 'SCORE', payload: value });
     }
     time({ type: 'HIDE' });
