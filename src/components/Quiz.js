@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import Timer from './Timer';
 
 class Quiz extends Component {
@@ -8,6 +9,7 @@ class Quiz extends Component {
     this.state = {
       id: 0,
       questions: [],
+      show: 'visibillity',
     };
 
     this.nextQuestion = this.nextQuestion.bind(this);
@@ -66,17 +68,18 @@ class Quiz extends Component {
 
   nextQuestion() {
     const { id } = this.state;
-    this.setState({
-      id: id + 1,
-    });
+      this.setState({
+        id: id + 1,
+      });
   }
 
   render() {
-    const { questions, id } = this.state;
+    const { questions, id, show } = this.state;
     if (questions.length === 0) {
       this.rodaroda();
       return <h1>Loading...</h1>;
     }
+    if (id > questions.length) { return (<Redirect to="/" />); }
     const answers = [questions[id].correct_answer, ...questions[id].incorrect_answers];
     const shuffleAnswers = this.shuffle(answers);
     let index = null;
@@ -112,6 +115,7 @@ class Quiz extends Component {
           data-testid="btn-next"
           type="button"
           onClick={ this.nextQuestion }
+          style={ { visibility: `${show}` } }
         >
           Próxima
         </button>
