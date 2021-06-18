@@ -27,27 +27,26 @@ class Header extends Component {
     const player = `{
       "player" : {
         "name" : "${username}",
-        "assertions" : "${assertions}",
-        "score" : "${score}",
+        "assertions" : ${assertions},
+        "score" : ${score},
         "email" : "${email}"
       }
     }`;
     localStorage.setItem('state', player);
+    // console.log(JSON.parse(player));
   }
 
   render() {
     this.saveScore();
     const { username, score } = this.props;
+    // const scoreString = `Placar: ${score}`;
     return (
       <header>
         <h3 data-testid="header-player-name">{username}</h3>
         <div>
           {this.gravatar()}
         </div>
-        <h3>Pontuação:</h3>
-        <h3 data-testid="header-score">
-          { score }
-        </h3>
+        <p data-testid="header-score">{ String(score) }</p>
       </header>
     );
   }

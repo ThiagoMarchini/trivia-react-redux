@@ -15,16 +15,15 @@ class MsgFeedback extends Component {
           {assertions >= numberOfHits
           && <p data-testid="feedback-text">Mandou bem!</p>}
           <h3>Placar:</h3>
-          <p data-testid="feedback-total-score">{ score.toString() }</p>
+          <p data-testid="feedback-total-score">{ String(score) }</p>
           <h3>Acertos:</h3>
-          <p data-testid="feedback-total-question">{ assertions.toString() }</p>
+          <p data-testid="feedback-total-question">{ assertions }</p>
         </section>
         <Link to="/" data-testid="btn-play-again">
-          {' '}
           <button type="button">Jogar novamente</button>
         </Link>
+        &nbsp;
         <Link to="/ranking" data-testid="btn-ranking">
-          {' '}
           <button type="button">Ver Ranking</button>
         </Link>
       </div>
