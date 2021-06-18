@@ -8,7 +8,6 @@ class Timer extends Component {
     const { setTime } = this.props;
     const ONE_SECOND = 1000; // 1 second in milliseconds
     this.chronometerInterval = setInterval(() => {
-      console.log('interval rodando');
       setTime({ type: 'DECREASE' });
     }, ONE_SECOND);
   }
@@ -23,7 +22,6 @@ class Timer extends Component {
     }
     if (time === maxTime && show === true) {
       this.chronometerInterval = setInterval(() => {
-        console.log('interval rodando');
         setTime({ type: 'DECREASE' });
       }, ONE_SECOND);
     }
