@@ -35,13 +35,22 @@ class MsgFeedback extends Component {
       <div>
         <section data-testid="feedback-text">
           {assertions < numberOfHits
-          && <p data-testid="feedback-text">Podia ser melhor...</p>}
+          && <h3 data-testid="feedback-text">Podia ser melhor...</h3>}
           {assertions >= numberOfHits
           && <p data-testid="feedback-text">Mandou bem!</p>}
-          <h3>Placar:</h3>
-          <p data-testid="feedback-total-score">{ String(score) }</p>
-          <h3>Acertos:</h3>
-          <p data-testid="feedback-total-question">{ assertions }</p>
+          <h2>
+            Placar:
+            &nbsp;
+            <span data-testid="feedback-total-score">
+              { String(score) }
+            </span>
+          </h2>
+          <h2>
+            Acertos:
+            <span data-testid="feedback-total-question">
+              { assertions }
+            </span>
+          </h2>
         </section>
         <Link to="/" data-testid="btn-play-again">
           <button type="button">Jogar novamente</button>

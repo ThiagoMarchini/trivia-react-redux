@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
+import '../css/Header.css';
 
 class Header extends Component {
   constructor(props) {
@@ -42,11 +43,17 @@ class Header extends Component {
     // const scoreString = `Placar: ${score}`;
     return (
       <header>
-        <h3 data-testid="header-player-name">{username}</h3>
+        {this.gravatar()}
         <div>
-          {this.gravatar()}
+          <h3 data-testid="header-player-name">{username}</h3>
+          <h3>
+            Pontuação:
+            &nbsp;
+            <span data-testid="header-score">
+              { String(score) }
+            </span>
+          </h3>
         </div>
-        <p data-testid="header-score">{ String(score) }</p>
       </header>
     );
   }

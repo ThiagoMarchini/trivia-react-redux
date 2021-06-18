@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
 import MsgFeedback from '../components/MsgFeedback';
+import '../css/Feedback.css';
 
 class Feedback extends Component {
   render() {
