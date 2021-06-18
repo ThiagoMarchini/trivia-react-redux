@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 class MsgFeedback extends Component {
   render() {
-    // const { feedback } = this.props;
-    const numberMax = 10;
-    const feedback = Math.floor(Math.random() * numberMax);
+    const { assertions } = this.props;
     const numberOfHits = 3;
     return (
-      <>
+      <div>
         <section data-testid="feedback-text">
-          {feedback < numberOfHits
+          {assertions < numberOfHits
           && <p data-testid="feedback-text">Podia ser melhor...</p>}
-          {feedback >= numberOfHits
+          {assertions >= numberOfHits
           && <p data-testid="feedback-text">Mandou bem!</p>}
         </section>
         <Link to="/" data-testid="btn-play-again">
@@ -23,9 +23,17 @@ class MsgFeedback extends Component {
           {' '}
           <button type="button">Ver Ranking</button>
         </Link>
-      </>
+      </div>
     );
   }
 }
 
-export default MsgFeedback;
+const mapStateToProps = (state) => ({
+  assertions: state.timeout.assertions,
+});
+
+MsgFeedback.propTypes = {
+  assertions: PropTypes.number.isRequired,
+};
+
+export default connect(mapStateToProps)(MsgFeedback);
