@@ -2,9 +2,33 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import md5 from 'crypto-js/md5';
 
 class MsgFeedback extends Component {
+  saveRanking() {
+    const { email, name, score } = this.props;
+    const userEmail = md5(email).toString();
+    const userImage = `https://www.gravatar.com/avatar/${userEmail}`;
+    const ranking = localStorage.getItem('ranking');
+    const oldRanking = JSON.parse(ranking);
+    console.log(oldRanking);
+    const newPlay = {
+      name,
+      score,
+      picture: userImage,
+    };
+    if (oldRanking) {
+      const newRanking = [...oldRanking, newPlay];
+      localStorage.removeItem('ranking');
+      localStorage.setItem('ranking', JSON.stringify(newRanking));
+    }
+    if (!oldRanking) {
+      localStorage.setItem('ranking', JSON.stringify([newPlay]));
+    }
+  }
+
   render() {
+    this.saveRanking();
     const { assertions, score } = this.props;
     const numberOfHits = 3;
     return (
@@ -33,11 +57,15 @@ class MsgFeedback extends Component {
 
 const mapStateToProps = (state) => ({
   assertions: state.timeout.assertions,
+  email: state.login.email,
+  name: state.login.name,
   score: state.timeout.score,
 });
 
 MsgFeedback.propTypes = {
   assertions: PropTypes.number.isRequired,
+  email: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
 };
 
