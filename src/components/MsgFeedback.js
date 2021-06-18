@@ -14,7 +14,10 @@ class MsgFeedback extends Component {
           && <p data-testid="feedback-text">Podia ser melhor...</p>}
           {assertions >= numberOfHits
           && <p data-testid="feedback-text">Mandou bem!</p>}
-          <p data-testid="feedback-total-score">{ score }</p>
+          <h3>Placar:</h3>
+          <p data-testid="feedback-total-score">{ score.toString() }</p>
+          <h3>Acertos:</h3>
+          <p data-testid="feedback-total-question">{ assertions.toString() }</p>
         </section>
         <Link to="/" data-testid="btn-play-again">
           {' '}
