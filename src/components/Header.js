@@ -46,10 +46,12 @@ class Header extends Component {
         {this.gravatar()}
         <div>
           <h3 data-testid="header-player-name">{username}</h3>
-          <h3 data-testid="header-score">
+          <h3>
             Pontuação:
             &nbsp;
-            { String(score) }
+            <span data-testid="header-score">
+              { String(score) }
+            </span>
           </h3>
         </div>
       </header>
