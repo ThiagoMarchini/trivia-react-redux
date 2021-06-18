@@ -38,6 +38,8 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       assertions: state.assertions + 1,
       score: state.score + (standardPoints + (state.time * payload)),
     };
+  case 'RESET_SCORE':
+    return INITIAL_STATE;
   default:
     return state;
   }
