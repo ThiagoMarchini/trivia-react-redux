@@ -19,9 +19,10 @@ class Login extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   localStorage.setItem('token', 0);
-  // }
+  componentDidMount() {
+    const { resetScore } = this.props;
+    resetScore({ type: 'RESET_SCORE' });
+  }
 
   handlechange({ target: { value, name } }) {
     const format = RegExp(/[a-z0-9]+@[a-z0-9]+\.[a-z0-9]{2,3}(\.[a-z0-9]+)?$/);
@@ -87,6 +88,7 @@ class Login extends Component {
 const MapDispatchToProps = (dispatch) => ({
   userToken: () => dispatch(fetchToken()),
   username: (values) => dispatch(action(values)),
+  resetScore: (value) => dispatch(action(value)),
 });
 
 Login.propTypes = ({
