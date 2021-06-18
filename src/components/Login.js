@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import action, { fetchToken } from '../actions/index';
 import ButtonSettings from './ButtonSettings';
-
 import logo from '../trivia.png';
+import '../css/Login.css';
 
 class Login extends Component {
   constructor(props) {
@@ -44,9 +44,10 @@ class Login extends Component {
       <div className="App-header">
         <img src={ logo } className="App-logo" alt="logo" />
         <h2>The Game</h2>
-        <form>
+        <form className="login-form">
           <label htmlFor="name">
-            Nome:
+            <span>Nome:</span>
+            &nbsp;
             <input
               type="text"
               id="name"
@@ -56,7 +57,8 @@ class Login extends Component {
             />
           </label>
           <label htmlFor="email">
-            E-mail:
+            <span>E-mail:</span>
+            &nbsp;
             <input
               type="email"
               name="email"
@@ -65,21 +67,23 @@ class Login extends Component {
               onChange={ this.handlechange }
             />
           </label>
-          <Link
-            to="/game"
-            onClick={ () => username({ type: 'LOGIN', payload: { name, email } }) }
-          >
-            <button
-              onClick={ userToken }
-              disabled={ !(email && name) }
-              type="submit"
-              data-testid="btn-play"
+          <nav>
+            <Link
+              to="/game"
+              onClick={ () => username({ type: 'LOGIN', payload: { name, email } }) }
             >
-              Jogar
-            </button>
-          </Link>
+              <button
+                onClick={ userToken }
+                disabled={ !(email && name) }
+                type="submit"
+                data-testid="btn-play"
+              >
+                Jogar
+              </button>
+            </Link>
+            <ButtonSettings />
+          </nav>
         </form>
-        <ButtonSettings />
       </div>
     );
   }

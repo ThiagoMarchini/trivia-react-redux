@@ -9,7 +9,7 @@ class ButtonSettings extends React.Component {
         to="/settings"
       >
         <button type="button">
-          Settings
+          Configuração
         </button>
       </Link>
     );

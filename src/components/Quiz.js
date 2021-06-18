@@ -73,10 +73,12 @@ class Quiz extends Component {
   questionStructure() {
     const { questions, id } = this.state;
     return (
-      <>
-        <h6 data-testid="question-category">{questions[id].category}</h6>
-        <div data-testid="question-text">{questions[id].question}</div>
-      </>
+      <div>
+        <h4 data-testid="question-category">{questions[id].category}</h4>
+        <p data-testid="question-text">
+          {questions[id].question.replace(/&quot;/g, '"').replace(/&#039;/g, '\'')}
+        </p>
+      </div>
     );
   }
 
@@ -148,7 +150,7 @@ class Quiz extends Component {
     const shuffleAnswers = this.shuffle(answers);
     let index = null;
     return (
-      <div>
+      <div className="quiz-buttons">
         {this.questionStructure()}
         {shuffleAnswers.map((item, i) => {
           if (item !== questions[id].correct_answer) {
@@ -162,7 +164,7 @@ class Quiz extends Component {
                 className={ answered ? 'red-border' : '' }
                 onClick={ this.answeredQuestion }
               >
-                {item}
+                {item.replace(/&quot;/g, '"').replace(/&#039;/g, '\'')}
               </button>
             );
           }
@@ -176,7 +178,7 @@ class Quiz extends Component {
               className={ answered ? 'green-border' : '' }
               onClick={ this.answeredQuestion }
             >
-              {item}
+              {item.replace(/&quot;/g, '"').replace(/&#039;/g, '\'')}
             </button>
           );
         })}

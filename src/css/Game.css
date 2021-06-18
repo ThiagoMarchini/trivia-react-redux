@@ -1,0 +1,20 @@
+body {
+  background-color: #282c34;
+  color: white;
+}
+
+.quiz-buttons {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: fit-content;
+}
+
+.quiz-buttons button {
+  font-size: medium;
+  height: 30px;
+  margin: auto;
+  margin-bottom: 20px;
+  min-width: 150px;
+  width: fit-content;
+}

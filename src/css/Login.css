@@ -1,0 +1,28 @@
+.login-form {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-form label {
+  display: flex;
+  flex-direction: row;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.login-form nav {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  height: auto;
+  justify-content: space-evenly;
+  width: 250px;
+}
+
+.login-form button {
+  font-size: medium;
+  height: 30px;
+  width: 150px;
+}
