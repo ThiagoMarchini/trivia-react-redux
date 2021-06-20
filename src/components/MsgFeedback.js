@@ -47,6 +47,7 @@ class MsgFeedback extends Component {
           </h2>
           <h2>
             Acertos:
+            &nbsp;
             <span data-testid="feedback-total-question">
               { assertions }
             </span>

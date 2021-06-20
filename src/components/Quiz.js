@@ -22,9 +22,19 @@ class Quiz extends Component {
   }
 
   rodaroda() {
-    // const { APIquestions } = this.props;
-    const local = localStorage.getItem('token');
-    const urlQuiz = `https://opentdb.com/api.php?amount=5&token=${local}`;
+    console.log(this.props);
+    const { category, difficulty, type } = this.props;
+    const token = localStorage.getItem('token');
+    let urlQuiz = `https://opentdb.com/api.php?amount=5&token=${token}`;
+    if (category) {
+      urlQuiz += `&category=${category}`;
+    }
+    if (difficulty) {
+      urlQuiz += `&difficulty=${difficulty}`;
+    }
+    if (type) {
+      urlQuiz += `&type=${type}`;
+    }
     fetch(urlQuiz)
       .then((response) => (
         response
@@ -193,6 +203,9 @@ const MapStateToProps = (state) => ({
   tokenKey: state.token.key,
   show: state.timeout.show,
   timeout: state.timeout.timeout,
+  category: state.searchParams.category,
+  difficulty: state.searchParams.difficulty,
+  type: state.searchParams.type,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -200,6 +213,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Quiz.propTypes = {
+  category: PropTypes.string.isRequired,
+  difficulty: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
   time: PropTypes.func.isRequired,
   timeout: PropTypes.bool.isRequired,
 };
