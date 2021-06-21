@@ -20,9 +20,7 @@ export const fetchToken = () => async (dispatch) => {
 
 export const fetchAPICategories = () => async (dispatch) => {
   const resultAPI = await getCategories();
-  // eslint-disable-next-line camelcase
-  const { trivia_categories } = resultAPI;
-  const categories = trivia_categories.map((entry) => entry);
+  const categories = resultAPI.trivia_categories.map((entry) => entry);
   console.log(categories);
   localStorage.setItem('CATEGORIES', categories);
   return dispatch(action({ type: 'CATEGORIES', payload: categories }));
