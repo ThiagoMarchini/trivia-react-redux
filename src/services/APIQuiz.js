@@ -1,5 +1,5 @@
-export default async function getAPIQuiz(token) {
-  return fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
+export default async function getAPIQuiz(token, category, difficulty, type) {
+  return fetch(`https://opentdb.com/api.php?amount=5&token=${token}&category=${category}&difficulty=${difficulty}&type=${type}`)
     .then((response) => response.json())
     .catch((error) => error);
 }
