@@ -16,15 +16,41 @@ class Quiz extends Component {
     };
 
     this.nextQuestion = this.nextQuestion.bind(this);
-    this.rodaroda = this.rodaroda.bind(this);
+    // this.rodaroda = this.rodaroda.bind(this);
     this.answeredQuestion = this.answeredQuestion.bind(this);
     this.nextButton = this.nextButton.bind(this);
   }
 
-  rodaroda() {
-    console.log(this.props);
+  // rodaroda() {
+  //   console.log(this.props);
+  //   const { category, difficulty, type } = this.props;
+  //   const token = localStorage.getItem('token') || "";
+  //   let urlQuiz = `https://opentdb.com/api.php?amount=5&token=${token}`;
+  //   if (category) {
+  //     urlQuiz += `&category=${category}`;
+  //   }
+  //   if (difficulty) {
+  //     urlQuiz += `&difficulty=${difficulty}`;
+  //   }
+  //   if (type) {
+  //     urlQuiz += `&type=${type}`;
+  //   }
+  //   fetch(urlQuiz)
+  //     .then((response) => (
+  //       response
+  //         .json()
+  //         .then((json) => this.setState({
+  //           questions: json.results,
+  //         }))
+  //         .catch((error) => error)
+  //     ));
+  // }
+
+  componentDidMount() {
+    // const { APIquestions } = this.props;
+    // APIquestions(local);
     const { category, difficulty, type } = this.props;
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token') || '';
     let urlQuiz = `https://opentdb.com/api.php?amount=5&token=${token}`;
     if (category) {
       urlQuiz += `&category=${category}`;
@@ -45,22 +71,6 @@ class Quiz extends Component {
           .catch((error) => error)
       ));
   }
-
-  // componentDidMount() {
-  //   // const { APIquestions } = this.props;
-  //   const local = localStorage.getItem('token');
-  //   // APIquestions(local);
-  //   const urlQuiz = `https://opentdb.com/api.php?amount=5&token=${local}`;
-  //   fetch(urlQuiz)
-  //     .then((response) => (
-  //       response
-  //         .json()
-  //         .then((json) => this.setState({
-  //           questions: json.results,
-  //         }))
-  //         .catch((error) => error)
-  //     ));
-  // }
 
   // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
   shuffle(array) {
@@ -152,7 +162,7 @@ class Quiz extends Component {
     const { timeout } = this.props;
     if (timeout === true && answered === false) { this.answeredQuestion(); }
     if (questions.length === 0) {
-      this.rodaroda();
+      // this.rodaroda();
       return <h1>Loading...</h1>;
     }
     if (id > (questions.length) - 1) { return <Redirect to="/feedback" />; }
