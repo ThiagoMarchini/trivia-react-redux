@@ -3,7 +3,7 @@
 Um jogo de trivia, feito como projeto do curso de desenvolvimento web na Trybe.
 
 # Tecnologias usadas:
--React
+-React <br />
 -Redux
 
 # Instalação
