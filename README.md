@@ -1,8 +1,8 @@
-## Trivia
+# Trivia
 
 Um jogo de trivia, feito como projeto do curso de desenvolvimento web na Trybe.
 
-#Tecnologias usadas:
+# Tecnologias usadas:
 -React
 -Redux
 
