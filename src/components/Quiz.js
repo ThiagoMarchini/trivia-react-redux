@@ -16,39 +16,11 @@ class Quiz extends Component {
     };
 
     this.nextQuestion = this.nextQuestion.bind(this);
-    // this.rodaroda = this.rodaroda.bind(this);
     this.answeredQuestion = this.answeredQuestion.bind(this);
     this.nextButton = this.nextButton.bind(this);
   }
 
-  // rodaroda() {
-  //   console.log(this.props);
-  //   const { category, difficulty, type } = this.props;
-  //   const token = localStorage.getItem('token') || "";
-  //   let urlQuiz = `https://opentdb.com/api.php?amount=5&token=${token}`;
-  //   if (category) {
-  //     urlQuiz += `&category=${category}`;
-  //   }
-  //   if (difficulty) {
-  //     urlQuiz += `&difficulty=${difficulty}`;
-  //   }
-  //   if (type) {
-  //     urlQuiz += `&type=${type}`;
-  //   }
-  //   fetch(urlQuiz)
-  //     .then((response) => (
-  //       response
-  //         .json()
-  //         .then((json) => this.setState({
-  //           questions: json.results,
-  //         }))
-  //         .catch((error) => error)
-  //     ));
-  // }
-
   componentDidMount() {
-    // const { APIquestions } = this.props;
-    // APIquestions(local);
     const { category, difficulty, type } = this.props;
     const token = localStorage.getItem('token') || '';
     let urlQuiz = `https://opentdb.com/api.php?amount=5&token=${token}`;
@@ -74,8 +46,8 @@ class Quiz extends Component {
 
   // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
   shuffle(array) {
-    let currentIndex = array.length; let
-      randomIndex;
+    let currentIndex = array.length;
+    let randomIndex;
     // While there remain elements to shuffle...
     while (currentIndex !== 0) {
       // Pick a remaining element...
@@ -113,6 +85,9 @@ class Quiz extends Component {
   }
 
   answeredQuestion(e = null) {
+    this.setState({
+      answered: true,
+    });
     const { time } = this.props;
     if (e !== null && e.target.value) {
       const max = 3;
@@ -131,9 +106,6 @@ class Quiz extends Component {
       time({ type: 'SCORE', payload: value });
     }
     time({ type: 'HIDE' });
-    this.setState({
-      answered: true,
-    });
   }
 
   nextButton() {
@@ -162,17 +134,19 @@ class Quiz extends Component {
     const { timeout } = this.props;
     if (timeout === true && answered === false) { this.answeredQuestion(); }
     if (questions.length === 0) {
-      // this.rodaroda();
+
       return <h1>Loading...</h1>;
     }
     if (id > (questions.length) - 1) { return <Redirect to="/feedback" />; }
-    const answers = [questions[id].correct_answer, ...questions[id].incorrect_answers];
-    const shuffleAnswers = this.shuffle(answers);
+    let answers = [questions[id].correct_answer, ...questions[id].incorrect_answers];
+    if (answered === false) answers = this.shuffle(answers);
+
     let index = null;
+    console.log(answers);
     return (
       <div className="quiz-buttons">
         {this.questionStructure()}
-        {shuffleAnswers.map((item, i) => {
+        {answers.map((item, i) => {
           if (item !== questions[id].correct_answer) {
             index += 1;
             return (
