@@ -13,6 +13,7 @@ class Quiz extends Component {
       id: 0,
       questions: [],
       answered: false,
+      allAnswers: [],
     };
 
     this.nextQuestion = this.nextQuestion.bind(this);
@@ -37,9 +38,20 @@ class Quiz extends Component {
       .then((response) => (
         response
           .json()
-          .then((json) => this.setState({
-            questions: json.results,
-          }))
+          .then((json) => {
+            this.setState({
+              questions: json.results,
+            })
+            json.results.forEach((question) => this.setState({
+              allAnswers: [...this.state.allAnswers, this.shuffle([question.correct_answer, ...question.incorrect_answers])],
+            }))
+          })
+          // .then((results) => {
+            // console.log(results);
+            // results.forEach((question) => this.setState({
+            //   allAnswers: [...this.state.allAnswers, this.shuffle([question.correct_answer, ...question.incorrect_answers])],
+            // }))
+          // })
           .catch((error) => error)
       ));
   }
@@ -130,16 +142,15 @@ class Quiz extends Component {
   }
 
   render() {
-    const { questions, id, answered } = this.state;
+    const { questions, id, answered, allAnswers } = this.state;
+    console.log(allAnswers);
     const { timeout } = this.props;
     if (timeout === true && answered === false) { this.answeredQuestion(); }
-    if (questions.length === 0) {
-
+    if (questions.length === 0 || allAnswers.length === 0) {
       return <h1>Loading...</h1>;
     }
     if (id > (questions.length) - 1) { return <Redirect to="/feedback" />; }
-    let answers = [questions[id].correct_answer, ...questions[id].incorrect_answers];
-    if (answered === false) answers = this.shuffle(answers);
+    let answers = allAnswers[id];
 
     let index = null;
     console.log(answers);
