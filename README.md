@@ -12,4 +12,4 @@ Um jogo de trivia, feito como projeto do curso de desenvolvimento web na Trybe.
 - Rode localmente com o comando: "npm start"
 
 # Link para o Deploy
-https://main.d6vs93pozb24g.amplifyapp.com/
+https://main.dgnva16ehmkmm.amplifyapp.com/
